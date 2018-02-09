@@ -34,6 +34,7 @@ class ViewController: UIViewController {
         } else {
             print("sender is not in cardButtons")
         }
+        
     }
 
 }
@@ -52,6 +53,7 @@ extension ViewController {
                 button.backgroundColor = card.isMatched ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0) : #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
             }
          }
+
     }
     
     func emoji(for card: Card) -> String {
