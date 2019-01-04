@@ -9,40 +9,44 @@
 import Foundation
 
 // 类
-class Concentration
+struct Concentration
 {
     private(set) var cards = [Card]()
     
     // 正面朝上卡片的索引
     private var indexOfOneAndOnlyFaceUpCard:Int? {
         get {
-            var foundIndex:Int?
-            for index in cards.indices {
-                if cards[index].isFaceUp {
-                    if foundIndex == nil {
-                        foundIndex = index
-                    } else {
-                        return nil
-                    }
-                }
-            }
+//            let faceUpCardIndeices = cards.indices.filter{cards[$0].isFaceUp}
+//            return faceUpCardIndeices.count == 1 ? faceUpCardIndeices.first : nil
             
-            return foundIndex
+            return cards.indices.filter{cards[$0].isFaceUp}.oneAndOnly
+//                var foundIndex:Int?
+//                for index in cards.indices {
+//                    if cards[index].isFaceUp {
+//                        if foundIndex == nil {
+//                            foundIndex = index
+//                        } else {
+//                            return nil
+//                        }
+//                    }
+//            }
+//
+//            return foundIndex
         }
-        set{
-            for index in cards.indices {
+        set {
+                for index in cards.indices {
                 cards[index].isFaceUp = (index == newValue)
             }
         }
     }
     
-    func chooseCard(at index: Int) {
+    mutating func chooseCard(at index: Int) {
     
-        assert(cards.indices.contains(index), "Concentration.chooseCard(at:\(index): chosen index not in the cards")
+        assert(cards.indices.contains(index),  "Concentration.chooseCard(at:\(index): chosen index not in the cards")
         
         if !cards[index].isMatched {
             if let matchIndex = indexOfOneAndOnlyFaceUpCard, matchIndex != index {
-                if cards[matchIndex].identifier == cards[index].identifier {
+                if cards[matchIndex] == cards[index] {
                     cards[matchIndex].isMatched = true
                     cards[index].isMatched = true
                 }
@@ -63,10 +67,11 @@ class Concentration
             let card = Card()
             cards += [card, card]
         }
-        
-        for i in stride(from:0.5, to:15.5, by:0.3) {
-            print(i)
-        }
-        
+    }
+}
+
+extension Collection {
+    var oneAndOnly : Element? {
+        return count == 1 ? first : nil
     }
 }
